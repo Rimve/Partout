@@ -8,14 +8,14 @@
 		<version>2.3.4.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.websitesmod</groupId>
+	<groupId>com.websites</groupId>
 	<artifactId>partout</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>partout</name>
-	<description>Website assignment demo</description>
+	<description>Demo project for websites module</description>
 
 	<properties>
-		<java.version>14</java.version>
+		<java.version>11</java.version>
 		<spring-cloud.version>Hoxton.SR8</spring-cloud.version>
 	</properties>
 
@@ -42,7 +42,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-oauth2</artifactId>
+			<artifactId>spring-cloud-starter-config</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.session</groupId>
