@@ -1,4 +1,4 @@
-package me.salisuwy;
+package com.websites.partout;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

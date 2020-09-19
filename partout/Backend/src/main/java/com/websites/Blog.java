@@ -1,4 +1,4 @@
-package me.salisuwy;
+package com.websites.partout;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
