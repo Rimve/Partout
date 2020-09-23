@@ -14,7 +14,7 @@ account details:
  - PartoutDB
  
  **Login**
- - admin@localhost
+ - admin@localhost / phpmyadmin@localhost
  
  **Password**
 - 9vJK123a315biys41
