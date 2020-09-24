@@ -8,3 +8,13 @@ account details:
 
 **Password:**
  - saitynai2k20neverauskas
+ 
+ #PHPMyAdmin
+ **Database**
+ - PartoutDB
+ 
+ **Login**
+ - admin@localhost / phpmyadmin@localhost
+ 
+ **Password**
+- 9vJK123a315biys41
