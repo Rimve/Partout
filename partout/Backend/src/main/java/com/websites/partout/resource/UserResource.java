@@ -15,23 +15,23 @@ public class UserResource {
     @Autowired
     UserRepo userRepo;
 
-    @GetMapping(value = "/all")
+    @GetMapping
     public List<User> getAll() {
         return userRepo.findAll();
     }
 
-    @PostMapping(value = "/load")
-    public List<User> persist(@RequestBody final User user) {
+    @PostMapping
+    public List<User> insertUser(@RequestBody final User user) {
         userRepo.save(user);
         return userRepo.findAll();
     }
 
-    @GetMapping(path = "/search/{id}")
+    @GetMapping(path = "/{id}")
     public Optional<User> searchUserById(@PathVariable("id") final int id) {
         return userRepo.findById(id);
     }
 
-    @GetMapping(path = "/delete/{id}")
+    @DeleteMapping(path = "/{id}")
     public Optional<User> deleteUserById(@PathVariable("id") final int id) {
         Optional<User> user = userRepo.findById(id);
         if (user.isEmpty()) {
@@ -43,7 +43,7 @@ public class UserResource {
         }
     }
 
-    @PostMapping(path = "/update/{id}")
+    @PutMapping(path = "/{id}")
     public Optional<User> updateUserById(@PathVariable("id") final int id, @RequestBody final User user) {
         Optional<User> tempUser = userRepo.findById(id);
         if (tempUser.isEmpty()) {

@@ -15,30 +15,30 @@ public class ShopOrderResource {
     @Autowired
     ShopOrderRepo shopOrderRepo;
 
-    @GetMapping(value = "/all")
+    @GetMapping
     public List<ShopOrder> getAll() {
         return shopOrderRepo.findAll();
     }
 
-    @PostMapping(value = "/load")
+    @PostMapping
     public List<ShopOrder> persist(@RequestBody final ShopOrder shopOrder) {
         shopOrderRepo.save(shopOrder);
         return shopOrderRepo.findAll();
     }
 
-    @GetMapping(path = "/search/{id}")
+    @GetMapping(path = "/{id}")
     public Optional<ShopOrder> searchOrderById(@PathVariable("id") final int id) {
         return shopOrderRepo.findById(id);
     }
 
-    @GetMapping(path = "/delete/{id}")
+    @DeleteMapping(path = "/{id}")
     public Optional<ShopOrder> deleteOrderById(@PathVariable("id") final int id) {
         Optional<ShopOrder> order = shopOrderRepo.findById(id);
         shopOrderRepo.deleteById(id);
         return order;
     }
 
-    @PostMapping(path = "/update/{id}")
+    @PutMapping(path = "/{id}")
     public Optional<ShopOrder> updateUserById(@PathVariable("id") final int id, @RequestBody final ShopOrder order) {
         Optional<ShopOrder> tempOrder = shopOrderRepo.findById(id);
         if (tempOrder.isEmpty()) {

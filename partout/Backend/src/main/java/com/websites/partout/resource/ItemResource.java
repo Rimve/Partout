@@ -15,23 +15,23 @@ public class ItemResource {
     @Autowired
     ItemRepo itemRepo;
 
-    @GetMapping(value = "/all")
+    @GetMapping
     public List<Item> getAll() {
         return itemRepo.findAll();
     }
 
-    @PostMapping(value = "/load")
+    @PostMapping
     public List<Item> persist(@RequestBody final Item order) {
         itemRepo.save(order);
         return itemRepo.findAll();
     }
 
-    @GetMapping(path = "/search/{id}")
+    @GetMapping(path = "/{id}")
     public Optional<Item> searchItemById(@PathVariable("id") final int id) {
         return itemRepo.findById(id);
     }
 
-    @GetMapping(path = "/delete/{id}")
+    @DeleteMapping(path = "/{id}")
     public Optional<Item> deleteItemById(@PathVariable("id") final int id) {
         Optional<Item> item = itemRepo.findById(id);
         if (item.isEmpty()) {
@@ -43,7 +43,7 @@ public class ItemResource {
         }
     }
 
-    @PostMapping(path = "/update/{id}")
+    @PutMapping(path = "/{id}")
     public Optional<Item> updateUserById(@PathVariable("id") final int id, @RequestBody final Item item) {
         Optional<Item> tempItem = itemRepo.findById(id);
         if (tempItem.isEmpty()) {
