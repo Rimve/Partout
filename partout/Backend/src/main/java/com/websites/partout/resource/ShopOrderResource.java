@@ -3,7 +3,9 @@ package com.websites.partout.resource;
 import com.websites.partout.dao.ShopOrderRepo;
 import com.websites.partout.model.ShopOrder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,14 +23,25 @@ public class ShopOrderResource {
     }
 
     @PostMapping
-    public List<ShopOrder> persist(@RequestBody final ShopOrder shopOrder) {
-        shopOrderRepo.save(shopOrder);
-        return shopOrderRepo.findAll();
+    @ResponseStatus(HttpStatus.CREATED)
+    public void persist(@RequestBody final ShopOrder shopOrder) {
+        try {
+            shopOrderRepo.save(shopOrder);
+        }
+        catch (Exception ex) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad or incomplete order information");
+        }
     }
 
     @GetMapping(path = "/{id}")
-    public Optional<ShopOrder> searchOrderById(@PathVariable("id") final int id) {
-        return shopOrderRepo.findById(id);
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void searchOrderById(@PathVariable("id") final int id) {
+        try {
+            shopOrderRepo.deleteById(id);
+        }
+        catch (Exception ex) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid order id");
+        }
     }
 
     @DeleteMapping(path = "/{id}")
@@ -42,22 +55,26 @@ public class ShopOrderResource {
     public Optional<ShopOrder> updateUserById(@PathVariable("id") final int id, @RequestBody final ShopOrder order) {
         Optional<ShopOrder> tempOrder = shopOrderRepo.findById(id);
         if (tempOrder.isEmpty()) {
-            return tempOrder;
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid order id");
         }
         else {
             shopOrderRepo.findById(id).map(u -> {
-                int indexOfUser = u.getId_Order();
+                int indexOfUser = u.getId_shop_order();
                 if (indexOfUser > 0) {
-                    shopOrderRepo.deleteById(indexOfUser);
-                    order.setId_Order(id);
-                    shopOrderRepo.save(order);
-                    return 1;
+                    try {
+                        shopOrderRepo.deleteById(indexOfUser);
+                        order.setId_shop_order(id);
+                        return shopOrderRepo.save(order);
+                    }
+                    catch (Exception ex) {
+                        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid order id");
+                    }
                 }
                 else {
-                    return 0;
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid order id");
                 }
             });
-            return shopOrderRepo.findById(id);
+            throw new ResponseStatusException(HttpStatus.FOUND);
         }
     }
 }
