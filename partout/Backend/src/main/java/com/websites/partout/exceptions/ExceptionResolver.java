@@ -1,4 +1,4 @@
-package com.websites.partout.exception;
+package com.websites.partout.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;

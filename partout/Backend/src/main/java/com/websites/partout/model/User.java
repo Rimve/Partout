@@ -1,17 +1,21 @@
 package com.websites.partout.model;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.Collection;
 
 @Entity
-public class User {
+public class User implements UserDetails {
 
     @Id
     @Column(name = "id_User")
     private int id_User;
     @Column(name = "login")
-    private String login;
+    private String username;
     @Column(name = "password")
     private String password;
     @Column(name = "email")
@@ -20,6 +24,7 @@ public class User {
     private String phone_number;
 
     public User() {
+
     }
 
     public int getId_User() {
@@ -30,12 +35,12 @@ public class User {
         this.id_User = id_User;
     }
 
-    public String getLogin() {
-        return login;
+    public String getUsername() {
+        return username;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -60,5 +65,30 @@ public class User {
 
     public void setPhone_number(String phone_number) {
         this.phone_number = phone_number;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
     }
 }

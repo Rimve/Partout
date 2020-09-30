@@ -1,12 +1,12 @@
 package com.websites.partout.resource;
 
+import com.websites.partout.model.User;
 import com.websites.partout.search.GenericSpecification;
 import com.websites.partout.search.SearchCriteria;
 import com.websites.partout.search.SearchOperation;
 import com.websites.partout.dao.ShopOrderRepo;
 import com.websites.partout.dao.UserRepo;
 import com.websites.partout.model.ShopOrder;
-import com.websites.partout.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
