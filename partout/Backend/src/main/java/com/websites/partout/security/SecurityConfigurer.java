@@ -1,6 +1,7 @@
-package com.websites.partout.services;
+package com.websites.partout.security;
 
 import com.websites.partout.filters.JwtRequestFilter;
+import com.websites.partout.services.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,8 +30,16 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests().antMatchers("/authenticate")
-                .permitAll().anyRequest().authenticated().and().sessionManagement()
+        http
+                .csrf()
+                .disable()
+                .authorizeRequests()
+                .antMatchers("/api/users/**", "/api/roles/**", "/api/users_roles/**").hasRole("ADMIN")
+                .antMatchers("/api/items/**", "/api/orders/**").hasRole("USER")
+                .antMatchers("/api/authenticate").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }

@@ -3,10 +3,9 @@ package com.websites.partout.model;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class User implements UserDetails {
@@ -22,6 +21,15 @@ public class User implements UserDetails {
     private String email;
     @Column(name = "phone_number")
     private String phone_number;
+    @Transient
+    private List<String> roles;
+
+    /*
+        SELECT roles.role
+        FROM roles
+        INNER JOIN users_roles ON users_roles.fk_roles_id=roles.id_user_roles
+        WHERE users_roles.fk_user_id=1
+    */
 
     public User() {
 
@@ -91,4 +99,6 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
     }
+
+
 }

@@ -25,6 +25,10 @@ public class CustomUserDetailsService implements UserDetailsService {
         return searchUserByUsername(username).get();
     }
 
+    public User loadUser(String username) throws UsernameNotFoundException {
+        return searchUserByUsername(username).get();
+    }
+
     private Optional<User> searchUserByUsername(String username) {
         try {
             GenericSpecification genericSpecification = new GenericSpecification<User>();
