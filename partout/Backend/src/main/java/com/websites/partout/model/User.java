@@ -21,15 +21,6 @@ public class User implements UserDetails {
     private String email;
     @Column(name = "phone_number")
     private String phone_number;
-    @Transient
-    private List<String> roles;
-
-    /*
-        SELECT roles.role
-        FROM roles
-        INNER JOIN users_roles ON users_roles.fk_roles_id=roles.id_user_roles
-        WHERE users_roles.fk_user_id=1
-    */
 
     public User() {
 

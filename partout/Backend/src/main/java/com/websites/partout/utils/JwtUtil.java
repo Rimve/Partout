@@ -15,10 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.*;
 import java.util.function.Function;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @Service
 public class JwtUtil {
     @Autowired
@@ -72,7 +74,7 @@ public class JwtUtil {
 
     private String createToken(Map<String, Object> claims, String subject) {
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 900000))
+                .setExpiration(new Date(System.currentTimeMillis() + 900000)) // 900000 * 8 - 15min * 8
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
     }
 
