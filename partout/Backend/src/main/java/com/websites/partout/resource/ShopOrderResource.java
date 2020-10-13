@@ -2,7 +2,9 @@ package com.websites.partout.resource;
 
 import com.websites.partout.dao.ShopOrderRepo;
 import com.websites.partout.model.ShopOrder;
+import com.websites.partout.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -17,6 +19,9 @@ public class ShopOrderResource {
 
     @Autowired
     ShopOrderRepo shopOrderRepo;
+
+    @Autowired
+    JwtUtil jwtUtil;
 
     @GetMapping
     public List<ShopOrder> getAll() {
@@ -35,46 +40,96 @@ public class ShopOrderResource {
     }
 
     @GetMapping(path = "/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void searchOrderById(@PathVariable("id") final int id) {
+    @ResponseStatus(HttpStatus.FOUND)
+    public ShopOrder searchOrderById(@PathVariable("id") final int id, @RequestHeader("Authorization") HttpHeaders headers) {
         try {
-            shopOrderRepo.deleteById(id);
+            final List<String> token = headers.get("Authorization");
+            if (token.get(0).startsWith("Bearer ")) {
+                String jwt = token.get(0).substring(6);
+                ShopOrder order = shopOrderRepo.findById(id).orElse(null);
+                int callerId = jwtUtil.extractCallerId(jwt);
+                if (order != null && order.fk_user_id == callerId) {
+                    return order;
+                } else {
+                    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can only search your own orders");
+                }
+            }
+            else {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You have not logged in");
+            }
+        }
+        catch (ResponseStatusException ex) {
+            throw new ResponseStatusException(ex.getStatus(), ex.getReason());
         }
         catch (Exception ex) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid order id");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
 
     @DeleteMapping(path = "/{id}")
-    public Optional<ShopOrder> deleteOrderById(@PathVariable("id") final int id) {
-        Optional<ShopOrder> order = shopOrderRepo.findById(id);
-        shopOrderRepo.deleteById(id);
-        return order;
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ShopOrder deleteOrderById(@PathVariable("id") final int id, @RequestHeader("Authorization") HttpHeaders headers) {
+        try {
+            final List<String> token = headers.get("Authorization");
+            if (token.get(0).startsWith("Bearer ")) {
+                String jwt = token.get(0).substring(6);
+                ShopOrder order = shopOrderRepo.findById(id).orElse(null);
+                int callerId = jwtUtil.extractCallerId(jwt);
+                if (order != null && order.fk_user_id == callerId) {
+                    shopOrderRepo.deleteById(id);
+                    return order;
+                } else {
+                    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can only delete your own orders");
+                }
+            }
+            else {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You have not logged in");
+            }
+        }
+        catch (ResponseStatusException ex) {
+            throw new ResponseStatusException(ex.getStatus(), ex.getReason());
+        }
+        catch (Exception ex) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PutMapping(path = "/{id}")
-    public Optional<ShopOrder> updateUserById(@PathVariable("id") final int id, @RequestBody final ShopOrder order) {
+    public Optional<ShopOrder> updateOrderById(@PathVariable("id") final int id, @RequestBody final ShopOrder order, @RequestHeader("Authorization") HttpHeaders headers) {
         Optional<ShopOrder> tempOrder = shopOrderRepo.findById(id);
         if (tempOrder.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid order id");
         }
         else {
-            shopOrderRepo.findById(id).map(u -> {
-                int indexOfUser = u.getId_shop_order();
-                if (indexOfUser > 0) {
-                    try {
-                        shopOrderRepo.deleteById(indexOfUser);
-                        order.setId_shop_order(id);
-                        return shopOrderRepo.save(order);
-                    }
-                    catch (Exception ex) {
-                        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid order id");
-                    }
+            final List<String> token = headers.get("Authorization");
+            if (token.get(0).startsWith("Bearer ")) {
+                String jwt = token.get(0).substring(6);
+                ShopOrder orderTemp = shopOrderRepo.findById(id).orElse(null);
+                int callerId = jwtUtil.extractCallerId(jwt);
+                if (orderTemp != null && orderTemp.fk_user_id == callerId) {
+                    shopOrderRepo.findById(id).map(u -> {
+                        int indexOfOrder = u.getId_shop_order();
+                        if (indexOfOrder > 0) {
+                            try {
+                                shopOrderRepo.deleteById(indexOfOrder);
+                                order.setId_shop_order(id);
+                                return shopOrderRepo.save(order);
+                            }
+                            catch (Exception ex) {
+                                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid order id");
+                            }
+                        }
+                        else {
+                            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid order id");
+                        }
+                    });
+                } else {
+                    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can only delete your own orders");
                 }
-                else {
-                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid order id");
-                }
-            });
+            }
+            else {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You have not logged in");
+            }
             throw new ResponseStatusException(HttpStatus.FOUND);
         }
     }

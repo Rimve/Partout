@@ -1,6 +1,5 @@
 package com.websites.partout.model;
 
-import org.springframework.lang.Nullable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,6 +22,8 @@ public class Item {
     public String category;
     @Column(name = "fk_shop_order_id")
     public Integer fk_shop_order_id;
+    @Column(name = "fk_user_id")
+    public Integer fk_user_id;
 
     public Item() {
     }
@@ -81,5 +82,13 @@ public class Item {
 
     public void setFk_shop_order_id(Integer fk_shop_order_id) {
         this.fk_shop_order_id = fk_shop_order_id;
+    }
+
+    public Integer getFk_user_id() {
+        return fk_user_id;
+    }
+
+    public void setFk_user_id(Integer fk_user_id) {
+        this.fk_user_id = fk_user_id;
     }
 }

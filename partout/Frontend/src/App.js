@@ -7,6 +7,7 @@ import About from './pages/About'
 import Users from "./pages/Users";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Products from "./pages/Products";
 
 export default class App extends Component {
     constructor() {
@@ -70,6 +71,7 @@ export default class App extends Component {
                         <Route path='/' exact component={Home} />
                         <Route path='/about' component={About} />
                         <Route path='/users' component={Users} />
+                        <Route path='/items' component={Products} />
                         <Route path='/login' render={props => (
                             <Login
                                 {...props}

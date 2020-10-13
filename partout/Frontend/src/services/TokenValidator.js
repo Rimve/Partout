@@ -30,12 +30,13 @@ export function checkToken(store) {
 }
 
 function checkExpiration(token) {
-    const decodedToken = jwt.decode(token, {complete: true});
-    const dateNow = new Date();
-    console.log(decodedToken.payload.roles[0]);
+    if (token != null) {
+        const decodedToken = jwt.decode(token, {complete: true});
+        const dateNow = new Date();
 
-    if(decodedToken.exp < dateNow.getTime())
-        return true;
+        if (decodedToken.exp < dateNow.getTime())
+            return true;
+    }
 }
 
 export function checkUserRoles(token) {

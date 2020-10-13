@@ -40,6 +40,10 @@ public class JwtUtil {
         return extractRolesClaim(token);
     }
 
+    public int extractCallerId(String token) {
+        return extractIdClaim(token);
+    }
+
     public Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
@@ -54,6 +58,11 @@ public class JwtUtil {
         return (ArrayList<String>) claims.get("roles");
     }
 
+    public int extractIdClaim(String token) {
+        final Claims claims = extractAllClaims(token);
+        return (int) claims.get("id_user");
+    }
+
     private Claims extractAllClaims(String token) {
         return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
     }
@@ -65,8 +74,10 @@ public class JwtUtil {
     public String generateToken(User userDetails) {
         Map<String, Object> claims = new HashMap<>();
         Set<String> userRoles = getRoles(userDetails);
-        // Place it in JWT token claim
+        // Place roles in JWT token claim
         claims.put("roles", userRoles.toArray());
+        // Place user id in JWT token claim
+        claims.put("id_user", userDetails.getId_User());
 
         // Create token
         return createToken(claims, userDetails.getUsername());
