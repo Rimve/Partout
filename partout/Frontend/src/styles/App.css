@@ -13,6 +13,10 @@
     --accent-color: #07deda;
 }
 
+.text {
+    color: var(--accent-color);
+}
+
 .background-image {
     font-family: 'Orbitron', sans-serif;
     background-image: url("https://image.freepik.com/free-photo/spare-parts-car_1170-1344.jpg");

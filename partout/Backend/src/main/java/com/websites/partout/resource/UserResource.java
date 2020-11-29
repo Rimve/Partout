@@ -1,6 +1,8 @@
 package com.websites.partout.resource;
 
+import com.websites.partout.dao.UsersRolesRepo;
 import com.websites.partout.model.User;
+import com.websites.partout.model.UsersRoles;
 import com.websites.partout.search.GenericSpecification;
 import com.websites.partout.search.SearchCriteria;
 import com.websites.partout.search.SearchOperation;
@@ -24,6 +26,8 @@ public class UserResource {
     UserRepo userRepo;
     @Autowired
     ShopOrderRepo orderRepo;
+    @Autowired
+    UsersRolesRepo usersRolesRepo;
 
     @GetMapping
     public List<User> getAll() {
@@ -34,10 +38,31 @@ public class UserResource {
     @ResponseStatus(HttpStatus.CREATED)
     public void insertUser(@RequestBody final User user) {
         try {
-            userRepo.save(user);
+            GenericSpecification genericSpecification = new GenericSpecification<User>();
+            genericSpecification.add(new SearchCriteria("username", user.getUsername(), SearchOperation.EQUAL));
+            List<User> result = userRepo.findAll(genericSpecification);
+            if (result.size() == 0) {
+                userRepo.save(user);
+                int userId = getUserIdByUsername(user);
+                if (userId != -1) {
+                    UsersRoles userRole = new UsersRoles();
+                    userRole.setIdUsersRoles(userId);
+                    userRole.setFkUserId(userId);
+                    userRole.setFkRolesId(2);
+                    usersRolesRepo.save(userRole);
+                }
+            }
+            else {
+                throw new ResponseStatusException(HttpStatus.CONFLICT);
+            }
         }
         catch (Exception ex) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad or incomplete user information");
+            if (ex instanceof ResponseStatusException) {
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "Username is already taken");
+            }
+            else {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad or incomplete user information");
+            }
         }
     }
 
@@ -129,6 +154,22 @@ public class UserResource {
             catch (Exception ex) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Selected user does not have any orders with id: " + orderId);
             }
+        }
+    }
+
+    public int getUserIdByUsername(User user) {
+        try {
+            GenericSpecification genericSpecification = new GenericSpecification<User>();
+            genericSpecification.add(new SearchCriteria("username", user.getUsername(), SearchOperation.EQUAL));
+            List<User> result = userRepo.findAll(genericSpecification);
+            if (!result.isEmpty()) {
+                return result.get(0).getId_User();
+            }
+            else {
+                return -1;
+            }
+        } catch (Exception ex) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
 }

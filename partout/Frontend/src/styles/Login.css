@@ -8,6 +8,21 @@
     align-self: center;
 }
 
+.align-start {
+    display: flex;
+    margin-left: 16px;
+    margin-top: 8px;
+    margin-bottom: -8px;
+    align-self: flex-start;
+}
+
+.align-warning {
+    display: flex;
+    margin-left: 16px;
+    margin-top: -8px;
+    align-self: flex-start;
+}
+
 .background {
     background-image: url("https://image.freepik.com/free-photo/spare-parts-car_1170-1344.jpg");
 }

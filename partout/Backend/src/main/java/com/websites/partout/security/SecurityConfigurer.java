@@ -4,6 +4,7 @@ import com.websites.partout.filters.JwtRequestFilter;
 import com.websites.partout.services.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -41,6 +42,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .disable()
                 .authorizeRequests()
                 //.antMatchers("/api/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/users").permitAll()
                 .antMatchers("/api/users/**", "/api/roles/**", "/api/users_roles/**").hasRole("ADMIN")
                 .antMatchers("/api/items/**", "/api/orders/**").hasRole("USER")
                 .antMatchers("/api/authenticate").permitAll()

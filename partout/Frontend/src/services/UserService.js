@@ -22,6 +22,10 @@ class UserService {
     getAuthApi() {
         return AUTHENTICATE_REST_API_URL;
     }
+
+    getUserApi() {
+        return USERS_REST_API_URL;
+    }
 }
 
 export default new UserService();

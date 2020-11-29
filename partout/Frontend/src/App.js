@@ -71,7 +71,11 @@ export default class App extends Component {
                                 handleLogin={this.handleLogin}
                             />
                         )} />
-                        <Route path='/register' component={Register} />
+                        <Route path='/register' render={props => (
+                            <Register
+                                {...props}
+                            />
+                        )} />
                     </Switch>
                 </Router>
             </div>

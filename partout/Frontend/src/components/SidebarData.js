@@ -31,7 +31,7 @@ export const SidebarData = [
     {
         title: 'About',
         path: '/about',
-        icon: <FaIcons.FaUsers />,
+        icon: <FaIcons.FaInfoCircle />,
         cName: 'nav-text'
     }
 ];
