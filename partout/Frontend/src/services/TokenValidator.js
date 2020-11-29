@@ -39,9 +39,17 @@ function checkExpiration(token) {
     }
 }
 
-export function checkUserRoles(token) {
+export function getUserRoles(token) {
     const decodedToken = jwt.decode(token, {complete: true});
     if (decodedToken !== null) {
         return decodedToken.payload.roles;
+    }
+}
+
+export function getUserName(token) {
+    const decodedToken = jwt.decode(token, {complete: true});
+    console.log(decodedToken)
+    if (decodedToken !== null) {
+        return decodedToken.payload.sub;
     }
 }

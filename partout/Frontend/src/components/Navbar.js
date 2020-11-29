@@ -4,12 +4,60 @@ import { Link, Router, Route, Switch, withRouter } from 'react-router-dom';
 import { SidebarData } from './SidebarData';
 import '../styles/Navbar.css';
 import '../styles/App.css';
-import {Form, FormControl, Nav} from "react-bootstrap";
+import {Dropdown, Form, FormControl, Nav} from "react-bootstrap";
+import {DropdownData} from "./DropdownData";
 
 function Navbar() {
     const [sidebar, setSidebar] = useState(false);
 
     const showSidebar = () => setSidebar(!sidebar);
+
+    const checkLoginStatus = () => {
+        if (localStorage.getItem('status') === "LOGGED_IN") {
+            return (
+                <>
+                    <span className='nav-small'>
+                        <Dropdown className="text-field-height">
+                            <Dropdown.Toggle className="shadow-none">
+                                <b>{localStorage.getItem('username').toUpperCase()}</b>
+                            </Dropdown.Toggle>
+
+                            <Dropdown.Menu>
+                                {DropdownData.map((item, index) => {
+                                    return <Dropdown.Item key={index} className={item.cName}>
+                                        <Link to={item.path} className='dropdown-entry' onClick={item.onClick}>
+                                            {item.icon}
+                                            <span>{item.title}</span>
+                                        </Link>
+                                    </Dropdown.Item>;
+                                })}
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    </span>
+                </>
+            );
+        }
+        else {
+            return (
+                <>
+                    <span>
+                        <Link to='/login'>
+                            <button className='button text-field-height'>
+                                <b>Login</b>
+                            </button>
+                        </Link>
+                    </span>
+                    <span>
+                        <Link to='/register'>
+                            <button className='button text-field-height'>
+                                <b>Register</b>
+                            </button>
+                        </Link>
+                    </span>
+                </>
+            );
+        }
+    };
 
     return (
         <>
@@ -29,20 +77,7 @@ function Navbar() {
                             </button>
                         </span>
                     </Form>
-                    <span>
-                        <Link to='/login'>
-                            <button className='button text-field-height'>
-                                <b>Login</b>
-                            </button>
-                        </Link>
-                    </span>
-                    <span>
-                        <Link to='/register'>
-                            <button className='button text-field-height'>
-                                <b>Register</b>
-                            </button>
-                        </Link>
-                    </span>
+                    {checkLoginStatus()}
                 </span>
             </div>
             <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>

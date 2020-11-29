@@ -23,12 +23,6 @@ export const SidebarData = [
         cName: 'nav-text'
     },
     {
-        title: 'Profile',
-        path: '/profile',
-        icon: <FaIcons.FaUserCircle />,
-        cName: 'nav-text'
-    },
-    {
         title: 'Users',
         path: '/users',
         icon: <FaIcons.FaUsers />,
