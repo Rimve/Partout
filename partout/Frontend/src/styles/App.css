@@ -17,7 +17,12 @@
     color: var(--accent-color);
 }
 
+.accent-color {
+    color: var(--accent-color);
+}
+
 .background-image {
+    line-height: 1;
     font-family: 'Orbitron', sans-serif;
     background-image: url("https://image.freepik.com/free-photo/spare-parts-car_1170-1344.jpg");
     background-repeat: no-repeat;
@@ -87,12 +92,6 @@
     color: var(--main-color);
     background-color: var(--accent-color);
     transform: translateY(2px);
-}
-
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
 }
 
 @keyframes App-logo-spin {

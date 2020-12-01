@@ -1,59 +1,87 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import * as RiIcons from 'react-icons/ri';
-import { Link, Router, Route, Switch, withRouter } from 'react-router-dom';
+import * as IoIcons from 'react-icons/io';
+import { Link, withRouter } from 'react-router-dom';
 import { SidebarData } from './SidebarData';
 import '../styles/Navbar.css';
 import '../styles/App.css';
-import {Dropdown, Form, FormControl, Nav} from "react-bootstrap";
+import '../styles/Responsive.css';
+import {Form, FormControl} from "react-bootstrap";
 import {DropdownData} from "./DropdownData";
 
 function Navbar() {
     const [sidebar, setSidebar] = useState(false);
+    const [button, setButton] = useState(true);
+    const [click, setClick] = useState(false);
+
+    const handleClick = () => setClick(!click);
+    const closeMobileMenu = () => setClick(false);
 
     const showSidebar = () => setSidebar(!sidebar);
+
+    const showButton = () => {
+        if (window.innerWidth <= 960) {
+            setButton(false);
+        } else {
+            setButton(true);
+        }
+    };
+
+    useEffect(() => {
+        showButton();
+    }, []);
+
+    window.addEventListener('resize', showButton);
 
     const checkLoginStatus = () => {
         if (localStorage.getItem('status') === "LOGGED_IN") {
             return (
                 <>
-                    <span className='nav-small'>
-                        <Dropdown className="text-field-height">
-                            <Dropdown.Toggle className="shadow-none">
-                                <b>{localStorage.getItem('username').toUpperCase()}</b>
-                            </Dropdown.Toggle>
-
-                            <Dropdown.Menu>
-                                {DropdownData.map((item, index) => {
-                                    return <Dropdown.Item key={index} className={item.cName}>
-                                        <Link to={item.path} className='dropdown-entry' onClick={item.onClick}>
-                                            {item.icon}
-                                            <span>{item.title}</span>
-                                        </Link>
-                                    </Dropdown.Item>;
-                                })}
-                            </Dropdown.Menu>
-                        </Dropdown>
-                    </span>
+                    <div className='menu-icon' onClick={handleClick}>
+                        <b className='accent-color cursor-remove'>
+                            {localStorage.getItem('username').toUpperCase()}
+                            {click ? <IoIcons.IoIosArrowUp /> : <IoIcons.IoIosArrowDown />}
+                        </b>
+                    </div>
+                    <ul className={click ? 'profile active' : 'profile'}>
+                        {DropdownData.map((item, index) => {
+                            return (
+                                <li key={index} className='prof-text'>
+                                    <Link to={item.path} className='icon' onClick={function() {item.onClick(); closeMobileMenu()}}>
+                                        {item.icon}
+                                        <span>{item.title}</span>
+                                    </Link>
+                                </li>
+                            );
+                        })}
+                    </ul>
                 </>
             );
         }
         else {
             return (
                 <>
-                    <span>
-                        <Link to='/login'>
-                            <button className='button text-field-height'>
-                                <b>Login</b>
-                            </button>
+                    <div className='menu-icon' onClick={handleClick}>
+                        <Link to='#' className='menu-bars'>
+                            {click ? <RiIcons.RiCloseLine /> : <RiIcons.RiMenuFoldLine />}
                         </Link>
-                    </span>
-                    <span>
-                        <Link to='/register'>
-                            <button className='button text-field-height'>
-                                <b>Register</b>
-                            </button>
-                        </Link>
-                    </span>
+                    </div>
+                    <ul className={click ? 'res-menu active' : 'res-menu'}>
+                        <li className='res-item'>
+                            <Link to='/login' onClick={closeMobileMenu}>
+                                <button className='button text-field-height'>
+                                    <b>Login</b>
+                                </button>
+                            </Link>
+                        </li>
+                        <li className='res-item'>
+                            <Link to='/register' onClick={closeMobileMenu}>
+                                <button className='button text-field-height'>
+                                    <b>Register</b>
+                                </button>
+                            </Link>
+                        </li>
+                    </ul>
                 </>
             );
         }
@@ -68,17 +96,17 @@ function Navbar() {
                 <Link to='/' className='title'>
                     <b>PartOut</b>
                 </Link>
-                <span>
+                <div className='search-bar'>
                     <Form className='form-center'>
                         <FormControl type="text" placeholder="Search" className='text-field-height'/>
                         <span>
-                            <button className='button-search text-field-height'>
-                                <b>Search</b>
-                            </button>
-                        </span>
+                                <button className='button-search text-field-height'>
+                                    <b>Search</b>
+                                </button>
+                            </span>
                     </Form>
-                    {checkLoginStatus()}
-                </span>
+                </div>
+                {checkLoginStatus()}
             </div>
             <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
                 <ul className='nav-menu-items' onClick={showSidebar}>
