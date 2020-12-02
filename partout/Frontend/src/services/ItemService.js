@@ -4,18 +4,31 @@ import {checkToken} from "./TokenValidator";
 const ITEMS_REST_API_URL = "http://localhost:8080/api/items";
 
 class ItemService {
-    getItems() {
+    getItemsByCat(category) {
         const token = localStorage.getItem("token");
         checkToken(token);
-        return axios
-            .get(ITEMS_REST_API_URL,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        'Access-Control-Allow-Origin': 'http://localhost:3000',
-                        'Access-Control-Allow-Methods': 'GET'
-                    }
-                })
+        if (category !== "empty") {
+            return axios
+                .get(ITEMS_REST_API_URL + "/" + category,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            'Access-Control-Allow-Origin': 'http://localhost:3000',
+                            'Access-Control-Allow-Methods': 'GET'
+                        }
+                    })
+        }
+        else {
+            return axios
+                .get(ITEMS_REST_API_URL,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            'Access-Control-Allow-Origin': 'http://localhost:3000',
+                            'Access-Control-Allow-Methods': 'GET'
+                        }
+                    })
+        }
     }
 }
 

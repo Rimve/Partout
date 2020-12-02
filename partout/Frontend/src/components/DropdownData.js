@@ -8,13 +8,13 @@ export const DropdownData = [
         title: 'Profile',
         path: '/profile',
         icon: <FaIcons.FaUserCircle />,
-        onClick: null
+        onClick: () => temp()
     },
     {
         title: 'Cart',
-        path: '/items',
+        path: '/cart',
         icon: <FaIcons.FaShoppingCart />,
-        onClick: null
+        onClick: () => temp()
     },
     {
         title: 'Logout',
@@ -26,4 +26,8 @@ export const DropdownData = [
 
 function handleLogout() {
     localStorage.clear();
+}
+
+function temp() {
+
 }

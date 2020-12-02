@@ -1,9 +1,9 @@
-import React from 'react';
-import ItemComponent from "../components/ItemsComponent";
+import React, { Component } from 'react';
+import ProductComponent from "../components/ProductComponent";
 
 export const Products = (props) => (
     <div>
-        <ItemComponent/>
+        <ProductComponent />
     </div>
 );
 export default Products;

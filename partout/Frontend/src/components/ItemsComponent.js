@@ -2,66 +2,77 @@ import React from 'react';
 import ItemService from '../services/ItemService';
 
 class ItemsComponent extends React.Component {
-    constructor(props){
-        super(props)
+    constructor(props) {
+        super(props);
         this.state = {
             items:[]
-        }
+        };
     }
 
-    componentDidMount(){
-        ItemService.getItems()
+    getItems() {
+        ItemService.getItemsByCat(this.props.handleFilter)
             .then((response) => {
-                this.setState({ items: response.data})
+                this.setState({items: response.data})
             })
             .catch(err => {
                 if (err.response.status === 403) {
                     this.setState({errorMessage: "You do not have the required rights"});
-                }
-                else {
+                } else {
                     this.setState({errorMessage: err.message});
                 }
                 console.log(err);
             });
     }
 
+    componentDidMount() {
+        this.getItems();
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.handleFilter !== this.props.handleFilter) {
+            this.getItems();
+        }
+    }
+
     render () {
         if (!this.state.errorMessage) {
             return (
-                <div>
-                    <h1 className='text-center color-accent'>Items List</h1>
-                    <table className="table table-secondary">
-                        <thead>
-                        <tr>
-                            <td>Item ID</td>
-                            <td>Name</td>
-                            <td>Price</td>
-                            <td>Quantity</td>
-                            <td>Description</td>
-                            <td>Category</td>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {
-                            this.state.items.map(
-                                item =>
-                                    <tr key={item.id_Item}>
-                                        <td>{item.id_Item}</td>
-                                        <td>{item.name}</td>
-                                        <td>{item.price}</td>
-                                        <td>{item.quantity}</td>
-                                        <td>{item.description}</td>
-                                        <td>{item.category}</td>
-                                    </tr>
-                            )
-                        }
-                        </tbody>
-                    </table>
+                <div className='item-container-grid'>
+                        {this.state.items.map((item, index) => {
+                            return (
+                                <>
+                                    <div className='item-container'>
+                                        <div className='item-text'>
+                                            <strong>Product: </strong>{item.name}
+                                        </div>
+                                        <div className='item-text'>
+                                            <strong>Price: </strong>{item.price}
+                                        </div>
+                                        <div className='item-text'>
+                                            <strong>Quantity: </strong>{item.quantity}
+                                        </div>
+                                        <div className='item-description'>
+                                            <strong>Description: </strong>{item.description}
+                                            Very great description, condition is okey, not great, not terrible, I recommend. Rate me 8 out of 8 pls.
+                                        </div>
+                                        <div className='item-text'>
+                                            <strong>Category: </strong>{item.category}
+                                        </div>
+                                    </div>
+                                </>
+                            );
+                        })}
                 </div>
             );
         }
         if (this.state.errorMessage) {
-            return (<h3 className="alert-danger text-center"> { this.state.errorMessage } </h3>);
+            return (
+                <div className='center'>
+                    <h3 className='alert-danger text-center border-radius'>
+                        { this.state.errorMessage }
+                    </h3>
+                </div>
+            );
         }
     }
 }

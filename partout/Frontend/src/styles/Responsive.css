@@ -7,11 +7,12 @@
     align-self: center;
     transition: all 0.5s ease;
     margin-bottom: 0;
+    z-index: 3;
 }
 
 .prof-text {
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
     list-style: none;
 }

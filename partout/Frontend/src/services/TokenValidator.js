@@ -1,4 +1,3 @@
-import React from 'react';
 import * as jwt from "jsonwebtoken";
 
 // export the action type used as a const, so it can be imported for
@@ -48,7 +47,6 @@ export function getUserRoles(token) {
 
 export function getUserName(token) {
     const decodedToken = jwt.decode(token, {complete: true});
-    console.log(decodedToken)
     if (decodedToken !== null) {
         return decodedToken.payload.sub;
     }

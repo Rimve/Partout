@@ -2,6 +2,9 @@ package com.websites.partout.resource;
 
 import com.websites.partout.dao.ItemRepo;
 import com.websites.partout.model.Item;
+import com.websites.partout.search.GenericSpecification;
+import com.websites.partout.search.SearchCriteria;
+import com.websites.partout.search.SearchOperation;
 import com.websites.partout.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -41,15 +44,24 @@ public class ItemResource {
         }
     }
 
-    @GetMapping(path = "/{id}")
-    public Item searchItemById(@PathVariable("id") final int id) {
-        Item item = itemRepo.findById(id).orElse(null);
-        if (item != null) {
-            return item;
-        }
-        else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No item found with id: " + id);
-        }
+//    @GetMapping(path = "/{id}")
+//    public Item searchItemById(@PathVariable("id") final int id) {
+//        Item item = itemRepo.findById(id).orElse(null);
+//        if (item != null) {
+//            return item;
+//        }
+//        else {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No item found with id: " + id);
+//        }
+//    }
+
+    @GetMapping(path = "/{category}")
+    public List<Item> searchItemByCat(@PathVariable("category") final String category) {
+        GenericSpecification genericSpecification = new GenericSpecification<Item>();
+        genericSpecification.add(new SearchCriteria("category", category, SearchOperation.EQUAL));
+        List<Item> items = itemRepo.findAll(genericSpecification);
+        // Search all the roles by role ids
+        return items;
     }
 
     @DeleteMapping(path = "/{id}")
