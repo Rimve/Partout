@@ -1,8 +1,9 @@
 import axios from 'axios';
 import {checkToken} from "./TokenValidator";
+import {SERVER_IP} from "../Constants";
 
-const USERS_REST_API_URL = "http://localhost:8080/api/users";
-const AUTHENTICATE_REST_API_URL = "http://localhost:8080/api/authenticate";
+const USERS_REST_API_URL = "http://"+SERVER_IP+":8080/api/users";
+const AUTHENTICATE_REST_API_URL = "http://"+SERVER_IP+":8080/api/authenticate";
 
 class UserService {
     getUsers() {
