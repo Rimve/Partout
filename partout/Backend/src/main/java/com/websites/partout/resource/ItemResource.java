@@ -64,6 +64,15 @@ public class ItemResource {
         return items;
     }
 
+    @GetMapping(path = "/search/{name}")
+    public List<Item> searchItemByName(@PathVariable("name") final String name) {
+        GenericSpecification genericSpecification = new GenericSpecification<Item>();
+        genericSpecification.add(new SearchCriteria("name", name, SearchOperation.EQUAL));
+        List<Item> items = itemRepo.findAll(genericSpecification);
+        // Search all the roles by role ids
+        return items;
+    }
+
     @DeleteMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteItemById(@PathVariable("id") final int id, @RequestHeader("Authorization") HttpHeaders headers) {
