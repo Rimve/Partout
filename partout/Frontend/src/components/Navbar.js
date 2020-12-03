@@ -6,8 +6,8 @@ import { SidebarData } from './SidebarData';
 import '../styles/Navbar.css';
 import '../styles/App.css';
 import '../styles/Responsive.css';
-import {Form, FormControl} from "react-bootstrap";
 import {DropdownData} from "./DropdownData";
+import SearchComponent from "./SearchComponent";
 
 function Navbar() {
     const [sidebar, setSidebar] = useState(false);
@@ -96,16 +96,7 @@ function Navbar() {
                 <Link to='/' className='title'>
                     <b>PartOut</b>
                 </Link>
-                <div className='search-bar'>
-                    <Form className='form-center'>
-                        <FormControl type="text" placeholder="Search" className='text-field-height'/>
-                        <span>
-                                <button className='button-search text-field-height'>
-                                    <b>Search</b>
-                                </button>
-                            </span>
-                    </Form>
-                </div>
+                <SearchComponent />
                 {checkLoginStatus()}
             </div>
             <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>

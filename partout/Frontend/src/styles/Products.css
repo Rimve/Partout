@@ -172,16 +172,17 @@
                     .item-container-grid {
                         flex: 1;
                         display: grid;
-                        grid-template-columns: repeat(2, auto);
+                        grid-template-columns: repeat(1, auto);
                         transition: all 0.2s ease;
                     }
 
                     .item-container {
-                        margin: 4px;
+                        margin: 8px;
+                        margin-left: 20px;
                         display: flex;
                         flex-direction: column;
                         justify-content: space-between;
-                        width: 132px;
+                        width: 85%;
                         height: fit-content;
                         background-color: var(--main-color);
                         border: 1px solid var(--accent-color);

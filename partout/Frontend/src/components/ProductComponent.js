@@ -1,5 +1,6 @@
 import { CategoryData } from "./CategoryData";
 import ItemComponent from "./ItemsComponent";
+import { Link, withRouter } from 'react-router-dom';
 import React from "react";
 import '../styles/Products.css';
 
@@ -14,6 +15,15 @@ class ProductComponent extends React.Component {
 
     filter(category) {
         this.setState({filter: category})
+    }
+
+    sendName() {
+        if (typeof(this.props.location.state) !== 'undefined' && this.props.location.state != null) {
+            return this.props.location.state.name;
+        }
+        else {
+            return '';
+        }
     }
 
     render () {
@@ -37,11 +47,11 @@ class ProductComponent extends React.Component {
                             })}
                         </ul>
                     </div>
-                    <ItemComponent handleFilter={this.state.filter}/>
+                    <ItemComponent handleFilter={this.state.filter} handleSearch={this.sendName()}/>
                 </div>
             </>
         );
     }
 }
 
-export default ProductComponent;
+export default withRouter(ProductComponent);

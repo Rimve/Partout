@@ -10,18 +10,34 @@ class ItemsComponent extends React.Component {
     }
 
     getItems() {
-        ItemService.getItemsByCat(this.props.handleFilter)
-            .then((response) => {
-                this.setState({items: response.data})
-            })
-            .catch(err => {
-                if (err.response.status === 403) {
-                    this.setState({errorMessage: "You do not have the required rights"});
-                } else {
-                    this.setState({errorMessage: err.message});
-                }
-                console.log(err);
-            });
+        if (this.props.handleSearch === '') {
+            ItemService.getItemsByCat(this.props.handleFilter)
+                .then((response) => {
+                    this.setState({items: response.data})
+                })
+                .catch(err => {
+                    if (err.response.status === 403) {
+                        this.setState({errorMessage: "You do not have the required rights"});
+                    } else {
+                        this.setState({errorMessage: err.message});
+                    }
+                    console.log(err);
+                });
+        }
+        else {
+            ItemService.getItemsByName(this.props.handleSearch)
+                .then((response) => {
+                    this.setState({items: response.data})
+                })
+                .catch(err => {
+                    if (err.response.status === 403) {
+                        this.setState({errorMessage: "You do not have the required rights"});
+                    } else {
+                        this.setState({errorMessage: err.message});
+                    }
+                    console.log(err);
+                });
+        }
     }
 
     componentDidMount() {
@@ -30,6 +46,9 @@ class ItemsComponent extends React.Component {
 
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.handleFilter !== this.props.handleFilter) {
+            this.getItems();
+        }
+        if (prevProps.handleSearch !== this.props.handleSearch) {
             this.getItems();
         }
     }

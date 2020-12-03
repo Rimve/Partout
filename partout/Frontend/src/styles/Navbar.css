@@ -13,6 +13,10 @@
     margin-left: 2rem;
 }
 
+.no-deco {
+    text-decoration: none;
+}
+
 .title:hover {
     color: var(--accent-color);
     text-decoration: none;
@@ -195,5 +199,14 @@ span {
         left: 0;
         transition: 550ms;
         z-index: 999;
+    }
+
+    .nav-text {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 2px 4px 16px 4px;
+        list-style: none;
+        height: 50px;
     }
 }

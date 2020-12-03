@@ -23,6 +23,7 @@
 }
 
 .background-image {
+    min-width: 320px;
     top: 0;
     line-height: 1;
     font-family: 'Orbitron', sans-serif;

@@ -67,7 +67,7 @@ public class ItemResource {
     @GetMapping(path = "/search/{name}")
     public List<Item> searchItemByName(@PathVariable("name") final String name) {
         GenericSpecification genericSpecification = new GenericSpecification<Item>();
-        genericSpecification.add(new SearchCriteria("name", name, SearchOperation.EQUAL));
+        genericSpecification.add(new SearchCriteria("name", name, SearchOperation.MATCH));
         List<Item> items = itemRepo.findAll(genericSpecification);
         // Search all the roles by role ids
         return items;
