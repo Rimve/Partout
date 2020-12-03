@@ -15,7 +15,11 @@ export default class Register extends Component {
 
     render() {
         return (
-            <RegisterComponent handleSuccessfulRegister={this.handleSuccessfulRegister} />
+            <>
+                <div className='fill-screen'>
+                    <RegisterComponent handleSuccessfulRegister={this.handleSuccessfulRegister} />
+                </div>
+            </>
         );
     }
 }

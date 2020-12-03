@@ -17,7 +17,11 @@ export default class Login extends Component {
 
     render() {
         return (
-            <LoginComponent handleSuccessfulAuth={this.handleSuccessfulAuth} />
+            <>
+                <div className='fill-screen'>
+                    <LoginComponent handleSuccessfulAuth={this.handleSuccessfulAuth} />
+                </div>
+            </>
         );
     }
 }

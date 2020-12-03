@@ -28,6 +28,10 @@
     font-size: 6rem;
 }
 
+.fill-screen {
+    height: 100vh;
+}
+
 .div-login {
     border-radius: 8px;
     display: flex;
@@ -49,7 +53,6 @@
     flex-direction: column;
     justify-content: center;
     background-color: var(--main-color);
-    width: 40%;
 }
 
 .button-login {
@@ -102,7 +105,6 @@
         flex-direction: column;
         justify-content: center;
         background-color: var(--main-color);
-        width: 60%;
     }
 
     .div-login {
