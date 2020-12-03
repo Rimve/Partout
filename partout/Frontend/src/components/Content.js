@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Route, Switch } from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import '../styles/Content.css';
 import Home from "../pages/Home";
 import About from "../pages/About";
@@ -11,6 +11,8 @@ import Register from "../pages/Register";
 import {getUserName} from "../services/TokenValidator";
 import {Orders} from "../pages/Orders";
 import ShoppingCart from "../pages/ShoppingCart";
+import Header from "./Header";
+import Footer from "./Footer";
 
 export default class Content extends Component {
     constructor() {
@@ -46,37 +48,39 @@ export default class Content extends Component {
     render() {
         return (
             <div className='content'>
-                <Switch>
-                    <Route
-                        exact
-                        path={"/"}
-                        render={props => (
-                            <Home
+                <Header />
+                    <Switch>
+                        <Route
+                            exact
+                            path={"/"}
+                            render={props => (
+                                <Home
+                                    {...props}
+                                    handleLogout={this.handleLogout}
+                                    loggedInStatus={localStorage.getItem('status')}
+                                />
+                            )}
+                        />
+                        <Route path='/' exact component={Home} />
+                        <Route path='/about' component={About} />
+                        <Route path='/users' component={Users} />
+                        <Route path='/items' component={Products} />
+                        <Route path='/orders' component={Orders} />
+                        <Route path='/profile' component={Profile} />
+                        <Route path='/cart' component={ShoppingCart} />
+                        <Route path='/login' render={props => (
+                            <Login
                                 {...props}
-                                handleLogout={this.handleLogout}
-                                loggedInStatus={localStorage.getItem('status')}
+                                handleLogin={this.handleLogin}
                             />
-                        )}
-                    />
-                    <Route path='/' exact component={Home} />
-                    <Route path='/about' component={About} />
-                    <Route path='/users' component={Users} />
-                    <Route path='/items' component={Products} />
-                    <Route path='/orders' component={Orders} />
-                    <Route path='/profile' component={Profile} />
-                    <Route path='/cart' component={ShoppingCart} />
-                    <Route path='/login' render={props => (
-                        <Login
-                            {...props}
-                            handleLogin={this.handleLogin}
-                        />
-                    )} />
-                    <Route path='/register' render={props => (
-                        <Register
-                            {...props}
-                        />
-                    )} />
-                </Switch>
+                        )} />
+                        <Route path='/register' render={props => (
+                            <Register
+                                {...props}
+                            />
+                        )} />
+                    </Switch>
+                <Footer />
             </div>
         );
     }

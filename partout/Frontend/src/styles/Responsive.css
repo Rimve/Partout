@@ -76,10 +76,9 @@
     .profile {
         background-color: var(--main-color);
         display: flex;
-        flex-direction: column;
-        width: 20%;
-        height: 108px;
         position: fixed;
+        flex-direction: column;
+        height: 108px;
         top: 60px;
         right: -100%;
         opacity: 0;
@@ -89,8 +88,10 @@
     }
 
     .profile.active {
+        width: fit-content;
         height: 108px;
         right: 0;
+        top: 60px;
         opacity: 1;
         transition: all 0.5s ease;
         padding-left: 20px;
@@ -146,9 +147,16 @@
         .res-menu.active {
             height: 108px;
             right: 0;
+            width: fit-content;
             opacity: 1;
             transition: all 0.5s ease;
             padding-left: 20px;
+        }
+
+        .res-item {
+            list-style: none;
+            margin-top: 2px;
+            margin-right: 8px;
         }
 
         .res-links {
