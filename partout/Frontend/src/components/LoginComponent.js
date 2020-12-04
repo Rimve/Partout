@@ -42,7 +42,9 @@ export default class LoginComponent extends Component {
                 }
             })
             .catch(error => {
-                console.log("Login error: ", error);
+                if (error.response.status === 404) {
+                    alert("Invalid credentials");
+                }
             });
     }
 

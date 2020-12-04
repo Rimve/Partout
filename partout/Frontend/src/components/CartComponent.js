@@ -19,11 +19,12 @@ class CartComponent extends React.Component {
         }
     }
 
-    handlePurchase() {
+    handlePurchase = () => {
+        localStorage.removeItem('cart')
         this.setState({
-            items: localStorage.removeItem('cart')
+            items: []
         });
-    }
+    };
 
     increase = (item) => {
         this.setState({
@@ -51,42 +52,49 @@ class CartComponent extends React.Component {
     };
 
     showTable() {
-        if (this.state.items.length > 0) {
-            return (
-                <>
-                    <table className="table">
-                        <thead className='table-head'>
-                        <tr>
-                            <td>Name</td>
-                            <td>Price</td>
-                            <td></td>
-                            <td className='td-center'>Quantity</td>
-                            <td></td>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {
-                            this.state.items.map(
-                                (item, index) =>
-                                    <tr key={index}>
-                                        <td>{item.name}</td>
-                                        <td>{item.price}</td>
-                                        <td><b className='button table-add-button'
-                                               onClick={() => this.increase(item)}> + </b></td>
-                                        <td className='td-center'>{item.quantity}</td>
-                                        <td><b className='button table-remove-button'
-                                               onClick={() => this.decrease(item)}> - </b></td>
-                                    </tr>
-                            )
-                        }
-                        </tbody>
-                    </table>
-                    <div className='purchase-btn-container'>
-                        <button className='modal-btn text-field-height purchase-btn' onClick={this.handlePurchase}>
-                            <b>Purchase</b></button>
-                    </div>
-                </>
-            );
+        if (typeof this.state.items !== undefined) {
+            if (this.state.items.length > 0) {
+                return (
+                    <>
+                        <table className="table">
+                            <thead className='table-head'>
+                            <tr>
+                                <td>Name</td>
+                                <td>Price</td>
+                                <td></td>
+                                <td className='td-center'>Quantity</td>
+                                <td></td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {
+                                this.state.items.map(
+                                    (item, index) =>
+                                        <tr key={index}>
+                                            <td>{item.name}</td>
+                                            <td>{item.price}</td>
+                                            <td><b className='button table-add-button'
+                                                   onClick={() => this.increase(item)}> + </b></td>
+                                            <td className='td-center'>{item.quantity}</td>
+                                            <td><b className='button table-remove-button'
+                                                   onClick={() => this.decrease(item)}> - </b></td>
+                                        </tr>
+                                )
+                            }
+                            </tbody>
+                        </table>
+                        <div className='purchase-btn-container'>
+                            <button className='modal-btn text-field-height purchase-btn' onClick={this.handlePurchase}>
+                                <b>Purchase</b></button>
+                        </div>
+                    </>
+                );
+            }
+            else {
+                return (
+                    <h3 className="alert-warning text-center border-radius"> <b>Your shopping cart is empty</b> </h3>
+                );
+            }
         }
         else {
             return (

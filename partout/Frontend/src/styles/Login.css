@@ -48,6 +48,7 @@
 }
 
 .form-login {
+    width: 300px;
     border-radius: 8px;
     display: flex;
     flex-direction: column;

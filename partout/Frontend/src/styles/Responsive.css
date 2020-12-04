@@ -5,9 +5,10 @@
     display: grid;
     grid-template-columns: repeat(3, auto);
     align-self: center;
-    transition: all 0.5s ease;
+    transition: all 0.3s ease;
     margin-bottom: 0;
     z-index: 3;
+    overflow: hidden;
 }
 
 .prof-text {
@@ -74,7 +75,7 @@
     display: none;
 }
 
-@media screen and (max-width: 975px) {
+@media screen and (max-width: 1000px) {
     .profile {
         background-color: var(--main-color);
         display: flex;
@@ -90,7 +91,7 @@
     }
 
     .profile.active {
-        position: absolute;
+        position: fixed;
         width: fit-content;
         height: 108px;
         right: 0;

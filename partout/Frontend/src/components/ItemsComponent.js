@@ -42,7 +42,6 @@ class ItemsComponent extends React.Component {
                     } else {
                         this.setState({errorMessage: err.message});
                     }
-                    console.log(err);
                 });
         }
         else {
@@ -56,7 +55,6 @@ class ItemsComponent extends React.Component {
                     } else {
                         this.setState({errorMessage: err.message});
                     }
-                    console.log(err);
                 });
         }
     }
@@ -109,7 +107,6 @@ class ItemsComponent extends React.Component {
                                 </>
                             );
                         })}
-                        }
                 </div>
             );
         }
