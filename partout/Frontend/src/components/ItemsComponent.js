@@ -1,12 +1,33 @@
 import React from 'react';
 import ItemService from '../services/ItemService';
+import ModalToCartComponent from "./ModalToCartComponent";
 
 class ItemsComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            items:[]
+            items: [],
+            showComponent: false,
+            body: '',
+            shopItem: ''
         };
+        this.onButtonClick = this.onButtonClick.bind(this);
+    }
+
+    modalCallback = (data) => {
+        this.setState({showComponent: data})
+    };
+
+    onButtonClick(item) {
+        this.setState({
+            body: item.name,
+            shopItem: item,
+        });
+        if (!this.state.showComponent) {
+            this.setState({
+                showComponent: true,
+            });
+        }
     }
 
     getItems() {
@@ -57,10 +78,17 @@ class ItemsComponent extends React.Component {
         if (!this.state.errorMessage) {
             return (
                 <div className='item-container-grid'>
+                    {this.state.showComponent ?
+                        <ModalToCartComponent
+                            show={this.state.showComponent}
+                            body={this.state.body}
+                            callBack={this.modalCallback}
+                            itemToAdd={this.state.shopItem}
+                        /> : null}
                         {this.state.items.map((item, index) => {
                             return (
                                 <>
-                                    <div className='item-container'>
+                                    <div key={index} className='item-container' onClick={ () => this.onButtonClick(item)}>
                                         <div className='item-text'>
                                             <strong>Product: </strong>{item.name}
                                         </div>
@@ -81,6 +109,7 @@ class ItemsComponent extends React.Component {
                                 </>
                             );
                         })}
+                        }
                 </div>
             );
         }

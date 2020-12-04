@@ -15,6 +15,7 @@
     justify-content: flex-start;
     align-items: center;
     list-style: none;
+    padding-right: 12px;
 }
 
 .prof-text a {
@@ -53,7 +54,7 @@
     display: grid;
     grid-template-columns: repeat(2, auto);
     align-self: center;
-    transition: all 0.5s ease;
+    transition: all 0.3s ease;
 }
 
 .res-item {
@@ -77,8 +78,8 @@
     .profile {
         background-color: var(--main-color);
         display: flex;
-        position: fixed;
         flex-direction: column;
+        position: fixed;
         height: 108px;
         top: 60px;
         right: -100%;
@@ -89,13 +90,14 @@
     }
 
     .profile.active {
+        position: absolute;
         width: fit-content;
         height: 108px;
         right: 0;
         top: 60px;
         opacity: 1;
-        transition: all 0.5s ease;
-        padding-left: 20px;
+        transition: all 0.3s ease;
+        padding-left: 12px;
     }
 
     .menu-icon {
@@ -118,6 +120,10 @@
 
         .ResbarItems {
             position: relative;
+        }
+
+        .prof-text {
+            padding-right: 12px;
         }
 
         .form-center {

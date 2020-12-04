@@ -6,7 +6,8 @@ export default class Footer extends Component {
         return (
             <div className='footer'>
                 <div className='footer-relative'>
-                    <strong>Test</strong>
+                    <text className='color-accent'>System made using ReactJS and Spring by</text>
+                    <strong className='color-accent font-italic'> R.N.</strong>
                 </div>
             </div>
         );

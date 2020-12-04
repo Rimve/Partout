@@ -7,7 +7,7 @@ Images prisitaikymas (max-width taisyklė, kad paveikslėlis mažėtų neišlipd
 +Padarytas responsive meniu (desktop: horizontalūs punktai, mobile: hamburger)
 +Panaudoti vektorines ikonas (webfont, svg).
 +Panaudotas kitoks šriftas (google fonts arba savo sugeneruotas)
-Panaudoti modalinį langą, kuriame pateikiama aktuali/prasminga informacija.
++Panaudoti modalinį langą, kuriame pateikiama aktuali/prasminga informacija.
 +Parinkti tarpusavyje besiderinančias spalvas.
 +UI elementai negali išsimėtyti, išdėstymas turi paklusti tinklelio horizontalioms ir vertikalioms linijoms.
 +Elementų matomumas ir pasiekiamumas neturi būti apsunkintas.

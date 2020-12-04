@@ -1,0 +1,126 @@
+.button {
+    border: 1px solid var(--accent-color);
+}
+
+.cart-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    justify-content: center;
+}
+
+.center-container {
+    width: 60%;
+    max-width: 750px;
+    align-content: center;
+    background-color: #666869;
+    padding-right: 25px;
+    padding-left: 25px;
+    padding-top: 25px;
+    border-left: 1px solid var(--accent-color);
+    border-right: 1px solid var(--accent-color);
+}
+
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: var(--accent-color);
+    background-color: var(--main-color);
+    border-radius: 8px;
+    display: table;
+    border-collapse: collapse;
+    box-sizing: border-box;
+    border-spacing: 8px;
+    border-color: var(--accent-color);
+}
+
+.table th, .table td {
+    border: none;
+}
+
+.table-head {
+    border-bottom: 1px solid var(--accent-color);
+}
+
+.td-center {
+    text-align: center;
+}
+
+.table-add-button {
+    padding: 2px 5px 2px 5px;
+    cursor: pointer;
+}
+
+.table-add-button:hover {
+    border: 1px solid var(--select-color);
+}
+
+.table-remove-button {
+    padding: 1px 7px 3px 7px;
+    cursor: pointer;
+}
+
+.table-remove-button:hover {
+    border: 1px solid var(--select-color);
+}
+
+.input-format {
+    border-radius: 8px;
+    width: fit-content;
+    max-width: 50px;
+}
+
+.purchase-btn-container {
+    display: flex;
+    flex-direction: row-reverse;
+    width: 100%;
+}
+
+.purchase-btn {
+    justify-self: center;
+}
+
+.border-radius {
+    border-radius: 8px;
+}
+
+@media screen and (max-width: 450px) {
+    .center-container {
+        width: 100%;
+        align-content: center;
+        background-color: #666869;
+        padding-right: 25px;
+        padding-left: 25px;
+        padding-top: 25px;
+        border-left: 1px solid var(--accent-color);
+        border-right: 1px solid var(--accent-color);
+    }
+
+    .table {
+        width: 100%;
+        margin-bottom: 1rem;
+        color: var(--accent-color);
+        background-color: var(--main-color);
+        border-radius: 8px;
+        display: table;
+        border-collapse: collapse;
+        box-sizing: border-box;
+        border-spacing: 8px;
+        border-color: var(--accent-color);
+        font-size: 8px;
+    }
+
+    .table-add-button {
+        padding: 2px 5px 2px 5px;
+        cursor: pointer;
+    }
+
+    .table-remove-button {
+        padding: 1px 6px 3px 6px;
+        cursor: pointer;
+    }
+
+    .button:hover {
+        border: 1px solid var(--select-color);
+    }
+}

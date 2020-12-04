@@ -6,6 +6,9 @@
 }
 
 .homepage-image {
+    background-color: #ffffff;
+    border: 2px solid var(--accent-color);
+    border-radius: 8px;
     align-self: center;
     height: 248px;
     width: 300px;

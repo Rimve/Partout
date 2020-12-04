@@ -25,7 +25,9 @@ export const DropdownData = [
 ];
 
 function handleLogout() {
-    localStorage.clear();
+    localStorage.removeItem('username');
+    localStorage.removeItem('token');
+    localStorage.removeItem('status');
 }
 
 function temp() {

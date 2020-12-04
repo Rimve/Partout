@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {getUserRoles} from "../services/TokenValidator";
+import ProfileComponent from "../components/ProfileComponent";
 
 export default class Profile extends Component {
     constructor(props) {
@@ -9,9 +9,9 @@ export default class Profile extends Component {
     render() {
         return (
             <>
-                <h1 className='color-accent'>Username: {localStorage.getItem('username')}</h1>
-                <h1 className='color-accent'>Status: {localStorage.getItem('status')}</h1>
-                <h1 className='color-accent'>Roles: {getUserRoles(localStorage.getItem("token"))}</h1>
+                <div className='profile-page'>
+                    <ProfileComponent />
+                </div>
             </>
         );
     }
