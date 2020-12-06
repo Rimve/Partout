@@ -10,8 +10,8 @@ export default class Home extends Component {
     render() {
         return (
             <div className='home'>
-                <div className='homepage-image'>
-
+                <div className='homepage-image-container'>
+                    <div className='homepage-image' />
                 </div>
                 {/*<h1 className='color-accent'>Status: {localStorage.getItem('status')}</h1>*/}
                 {/*<h1 className='color-accent'>Roles: {getUserRoles(localStorage.getItem("token"))}</h1>*/}

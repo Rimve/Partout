@@ -51,3 +51,10 @@ export function getUserName(token) {
         return decodedToken.payload.sub;
     }
 }
+
+export function getUserId(token) {
+    const decodedToken = jwt.decode(token, {complete: true});
+    if (decodedToken !== null) {
+        return decodedToken.payload.id_user;
+    }
+}

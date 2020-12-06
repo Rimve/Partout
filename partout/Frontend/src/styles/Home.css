@@ -5,13 +5,21 @@
     height: 100vh;
 }
 
-.homepage-image {
+.homepage-image-container {
     background-color: #ffffff;
     border: 2px solid var(--accent-color);
     border-radius: 8px;
     align-self: center;
-    height: 248px;
-    width: 300px;
+    width: fit-content;
+    height: fit-content;
+}
+
+.homepage-image {
+    height: 500px;
+    width: 600px;
+    max-width: 300px;
+    max-height: 248px;
+    background-size: cover;
     background-image: url(../logos/partout-logo.png);
     background-repeat: no-repeat;
 }

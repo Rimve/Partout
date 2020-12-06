@@ -60,7 +60,6 @@ public class ItemResource {
         GenericSpecification genericSpecification = new GenericSpecification<Item>();
         genericSpecification.add(new SearchCriteria("category", category, SearchOperation.EQUAL));
         List<Item> items = itemRepo.findAll(genericSpecification);
-        // Search all the roles by role ids
         return items;
     }
 

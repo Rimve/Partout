@@ -1,6 +1,8 @@
 package com.websites.partout.resource;
 
+import com.websites.partout.dao.ItemRepo;
 import com.websites.partout.dao.UsersRolesRepo;
+import com.websites.partout.model.Item;
 import com.websites.partout.model.User;
 import com.websites.partout.model.UsersRoles;
 import com.websites.partout.search.GenericSpecification;
@@ -9,7 +11,9 @@ import com.websites.partout.search.SearchOperation;
 import com.websites.partout.dao.ShopOrderRepo;
 import com.websites.partout.dao.UserRepo;
 import com.websites.partout.model.ShopOrder;
+import com.websites.partout.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -28,6 +32,10 @@ public class UserResource {
     ShopOrderRepo orderRepo;
     @Autowired
     UsersRolesRepo usersRolesRepo;
+    @Autowired
+    ItemRepo itemRepo;
+    @Autowired
+    JwtUtil jwtUtil;
 
     @GetMapping
     public List<User> getAll() {
@@ -129,6 +137,34 @@ public class UserResource {
             } catch (Exception ex) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Selected user does not have any orders");
             }
+        }
+    }
+
+    @GetMapping(path = "/{id_user}/items")
+    public List<Item> getItemsByUserId(@PathVariable("id_user") final int userId, @RequestHeader("Authorization") HttpHeaders headers) {
+        try {
+            final List<String> token = headers.get("Authorization");
+            if (token.get(0).startsWith("Bearer ")) {
+                String jwt = token.get(0).substring(6);
+                int callerId = jwtUtil.extractCallerId(jwt);
+                if (callerId == userId) {
+                    GenericSpecification genericSpecification = new GenericSpecification<Item>();
+                    genericSpecification.add(new SearchCriteria("fk_user_id", userId, SearchOperation.EQUAL));
+                    List<Item> items = itemRepo.findAll(genericSpecification);
+                    return items;
+                } else {
+                    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can only get your own products");
+                }
+            }
+            else {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You have not logged in");
+            }
+        }
+        catch (ResponseStatusException ex) {
+            throw new ResponseStatusException(ex.getStatus(), ex.getReason());
+        }
+        catch (Exception ex) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
 

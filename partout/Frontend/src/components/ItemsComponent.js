@@ -1,6 +1,9 @@
 import React from 'react';
 import ItemService from '../services/ItemService';
 import ModalToCartComponent from "./ModalToCartComponent";
+import ModalToRemoveComponent from "./ModalToRemoveComponent";
+import {getUserId} from "../services/TokenValidator";
+import UserService from "../services/UserService";
 
 class ItemsComponent extends React.Component {
     constructor(props) {
@@ -9,7 +12,8 @@ class ItemsComponent extends React.Component {
             items: [],
             showComponent: false,
             body: '',
-            shopItem: ''
+            shopItem: '',
+            itemId: -1
         };
         this.onButtonClick = this.onButtonClick.bind(this);
     }
@@ -22,6 +26,7 @@ class ItemsComponent extends React.Component {
         this.setState({
             body: item.name,
             shopItem: item,
+            itemId: item.id_Item
         });
         if (!this.state.showComponent) {
             this.setState({
@@ -31,7 +36,20 @@ class ItemsComponent extends React.Component {
     }
 
     getItems() {
-        if (this.props.handleSearch === '') {
+        if (this.props.getMyItems) {
+            UserService.getItemsByUserId(getUserId(localStorage.getItem('token')))
+                .then((response) => {
+                    this.setState({items: response.data})
+                })
+                .catch(err => {
+                    if (err.response.status === 403) {
+                        this.setState({errorMessage: "You do not have the required rights"});
+                    } else {
+                        this.setState({errorMessage: err.message});
+                    }
+                });
+        }
+        if (this.props.handleSearch === '' && !this.props.getMyItems) {
             ItemService.getItemsByCat(this.props.handleFilter)
                 .then((response) => {
                     this.setState({items: response.data})
@@ -44,7 +62,7 @@ class ItemsComponent extends React.Component {
                     }
                 });
         }
-        else {
+        if (this.props.handleSearch !== '' && !this.props.getMyItems) {
             ItemService.getItemsByName(this.props.handleSearch)
                 .then((response) => {
                     this.setState({items: response.data})
@@ -72,17 +90,36 @@ class ItemsComponent extends React.Component {
         }
     }
 
+    showModal() {
+        if (!this.props.getMyItems) {
+            return (
+                this.state.showComponent ?
+                    <ModalToCartComponent
+                        show={this.state.showComponent}
+                        body={this.state.body}
+                        callBack={this.modalCallback}
+                        itemToAdd={this.state.shopItem}
+                    /> : null
+            );
+        }
+        if (this.props.getMyItems) {
+            return (
+                this.state.showComponent ?
+                    <ModalToRemoveComponent
+                        show={this.state.showComponent}
+                        body={this.state.body}
+                        callBack={this.modalCallback}
+                        itemId={this.state.itemId}
+                    /> : null
+            );
+        }
+    }
+
     render () {
         if (!this.state.errorMessage) {
             return (
                 <div className='item-container-grid'>
-                    {this.state.showComponent ?
-                        <ModalToCartComponent
-                            show={this.state.showComponent}
-                            body={this.state.body}
-                            callBack={this.modalCallback}
-                            itemToAdd={this.state.shopItem}
-                        /> : null}
+                    {this.showModal()}
                         {this.state.items.map((item, index) => {
                             return (
                                 <>

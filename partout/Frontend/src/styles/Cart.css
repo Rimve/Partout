@@ -45,15 +45,17 @@
 .table-add-button {
     padding: 2px 5px 2px 5px;
     cursor: pointer;
+    user-select: none;
 }
 
 .table-add-button:hover {
-    border: 1px solid var(--select-color);
+    border: 1px solid var(--accent-color);
 }
 
 .table-remove-button {
     padding: 1px 7px 3px 7px;
     cursor: pointer;
+    user-select: none;
 }
 
 .table-remove-button:hover {
@@ -74,6 +76,16 @@
 
 .purchase-btn {
     justify-self: center;
+}
+
+.remove-btn {
+    color: var(--select-color);
+    vertical-align: top;
+    height: 24px;
+}
+
+.remove-btn:hover {
+    border: 2px solid var(--select-color);
 }
 
 .border-radius {

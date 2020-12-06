@@ -15,7 +15,9 @@ class ProductComponent extends React.Component {
 
     filter(category) {
         this.setState({filter: category});
-        this.props.location.state.name = '';
+        if (typeof this.props.location.state !== 'undefined') {
+            this.props.location.state.name = '';
+        }
     }
 
     sendName() {

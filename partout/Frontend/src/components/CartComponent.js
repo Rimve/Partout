@@ -26,6 +26,14 @@ class CartComponent extends React.Component {
         });
     };
 
+    handleRemove = (itemToRemove) => {
+        var tempArray = [];
+        var filteredArray = this.state.items.filter(item => item !== itemToRemove);
+        filteredArray.map(item => tempArray.push(JSON.stringify(item)));
+        localStorage.setItem('cart', JSON.stringify(tempArray));
+        this.setState({items: filteredArray});
+    };
+
     increase = (item) => {
         this.setState({
             change: item.quantity++
@@ -64,6 +72,7 @@ class CartComponent extends React.Component {
                                 <td></td>
                                 <td className='td-center'>Quantity</td>
                                 <td></td>
+                                <td></td>
                             </tr>
                             </thead>
                             <tbody>
@@ -78,6 +87,8 @@ class CartComponent extends React.Component {
                                             <td className='td-center'>{item.quantity}</td>
                                             <td><b className='button table-remove-button'
                                                    onClick={() => this.decrease(item)}> - </b></td>
+                                            <td><button className='modal-btn remove-btn' onClick={() => this.handleRemove(item)}>
+                                                <b>Remove</b></button></td>
                                         </tr>
                                 )
                             }
