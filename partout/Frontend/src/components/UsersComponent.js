@@ -41,13 +41,13 @@ class UsersComponent extends React.Component {
     handleRemove = (userId) => {
         UserService.deleteByUserId(userId)
             .then((response) => {
-                this.setState(this.state)
                 alert("User has been deleted");
+                this.getUsers();
+                this.setState(this.state);
             })
             .catch(err => {
                 alert("Something went wrong");
             });
-        this.getUsers();
     };
 
     showTable() {

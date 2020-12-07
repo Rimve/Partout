@@ -21,12 +21,11 @@ class ItemsComponent extends React.Component {
     }
 
     modalCallback = (data) => {
-        this.setState({showComponent: data})
+        this.setState({showComponent: data});
         this.getItems();
     };
 
     createItemCallback = (data) => {
-        this.setState( {reload: data})
         this.getItems();
     };
 
