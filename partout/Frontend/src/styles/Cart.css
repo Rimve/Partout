@@ -32,6 +32,7 @@
 
 .table th, .table td {
     border: none;
+    vertical-align: inherit;
 }
 
 .table-head {

@@ -89,9 +89,18 @@ public class UserResource {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUserById(@PathVariable("id") final int id) {
         try {
-            userRepo.deleteById(id);
+            GenericSpecification genericSpecification = new GenericSpecification<UsersRoles>();
+            genericSpecification.add(new SearchCriteria("fkUserId", id, SearchOperation.EQUAL));
+            List<UsersRoles> roles = usersRolesRepo.findAll(genericSpecification);
+            if (roles.size() > 0) {
+                for (UsersRoles role : roles) {
+                    usersRolesRepo.deleteById(role.getIdUsersRoles());
+                }
+                userRepo.deleteById(id);
+            }
         }
         catch (Exception ex) {
+            System.out.println(ex);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid user id");
         }
     }

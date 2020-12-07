@@ -4,6 +4,7 @@ import ModalToCartComponent from "./ModalToCartComponent";
 import ModalToRemoveComponent from "./ModalToRemoveComponent";
 import {getUserId} from "../services/TokenValidator";
 import UserService from "../services/UserService";
+import CreateItemComponent from "./CreateItemComponent";
 
 class ItemsComponent extends React.Component {
     constructor(props) {
@@ -13,13 +14,20 @@ class ItemsComponent extends React.Component {
             showComponent: false,
             body: '',
             shopItem: '',
-            itemId: -1
+            itemId: -1,
+            reload: false
         };
         this.onButtonClick = this.onButtonClick.bind(this);
     }
 
     modalCallback = (data) => {
         this.setState({showComponent: data})
+    };
+
+    createItemCallback = (data) => {
+        this.setState( {reload: data})
+        this.getItems();
+        console.log("ok")
     };
 
     onButtonClick(item) {
@@ -90,6 +98,14 @@ class ItemsComponent extends React.Component {
         }
     }
 
+    showProfileItems() {
+        if (this.props.getMyItems) {
+            return (
+                <CreateItemComponent needsReload={this.createItemCallback}/>
+            );
+        }
+    }
+
     showModal() {
         if (!this.props.getMyItems) {
             return (
@@ -135,7 +151,6 @@ class ItemsComponent extends React.Component {
                                         </div>
                                         <div className='item-description'>
                                             <strong>Description: </strong>{item.description}
-                                            Very great description, condition is okey, not great, not terrible, I recommend. Rate me 8 out of 8 pls.
                                         </div>
                                         <div className='item-text'>
                                             <strong>Category: </strong>{item.category}
@@ -144,6 +159,7 @@ class ItemsComponent extends React.Component {
                                 </>
                             );
                         })}
+                    {this.showProfileItems()}
                 </div>
             );
         }

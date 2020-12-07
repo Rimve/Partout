@@ -3,7 +3,7 @@ import UsersComponent from "../components/UsersComponent";
 
 export const Users = (props) => (
     <div>
-        <UsersComponent/>
+        <UsersComponent />
     </div>
 );
 export default Users;

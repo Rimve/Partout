@@ -42,6 +42,7 @@ export default class CreateItemComponent extends Component {
                 .then(response => {
                     if (response.status === 201) {
                         alert("Your listing has been created");
+                        this.props.needsReload(true);
                     }
                 })
                 .catch(error => {
@@ -57,6 +58,7 @@ export default class CreateItemComponent extends Component {
         let input = this.state.input;
         let errors = {};
         let isValid = true;
+        const numberRegex = /^[0-9\b]+$/;
 
         if (!input["name"]) {
             isValid = false;
@@ -71,6 +73,11 @@ export default class CreateItemComponent extends Component {
         if (input["price"] <= 0) {
             isValid = false;
             errors["price"] = "Price should be more than 0!";
+        }
+
+        if (!numberRegex.test(input["price"])) {
+            isValid = false;
+            errors["price"] = "Price should be a number!";
         }
 
         if (!input["quantity"]) {
@@ -97,7 +104,7 @@ export default class CreateItemComponent extends Component {
 
     render () {
         return (
-            <div className='div-login'>
+            <div className='div-login margin-top'>
                 <Form className='form-login' onSubmit={this.handleSubmit}>
                     <label className="text align-start"><b>Product name*</b></label>
                     <FormControl
@@ -112,7 +119,7 @@ export default class CreateItemComponent extends Component {
 
                     <label className="text align-start"><b>Price*</b></label>
                     <FormControl
-                        type="price"
+                        type="text"
                         name="price"
                         value={this.state.input.price}
                         onChange={this.handleChange}
@@ -152,7 +159,7 @@ export default class CreateItemComponent extends Component {
                         placeholder="Which category fits your product best?"
                         className='text-field-login align-center'
                         id="category">
-                        <option/>
+                        <option />
                         {CategoryData.map((item) => {
                             return (
                                 <option>{item.title}</option>
