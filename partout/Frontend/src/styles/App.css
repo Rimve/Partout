@@ -111,7 +111,7 @@
 }
 
 .max-height-container {
-    height: 100vh;
+    min-height: calc(100vh - 117px);
 }
 
 @keyframes App-logo-spin {

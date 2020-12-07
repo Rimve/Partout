@@ -1,6 +1,6 @@
 .cart-container {
     display: flex;
-    height: 100vh;
+    min-height: calc(100vh - 117px);
     width: 100%;
     justify-content: center;
 }

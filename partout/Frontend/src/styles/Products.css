@@ -1,6 +1,7 @@
 .products {
     display: flex;
     flex-direction: row;
+    min-height: calc(100vh - 117px);
 }
 
 .categories {
