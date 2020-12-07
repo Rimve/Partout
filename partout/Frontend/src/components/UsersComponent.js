@@ -47,6 +47,7 @@ class UsersComponent extends React.Component {
             .catch(err => {
                 alert("Something went wrong");
             });
+        this.getUsers();
     };
 
     showTable() {
